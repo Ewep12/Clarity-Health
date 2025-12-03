@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clarity Health - Monitore sua Glicemia</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="index.html" class="logo">Clarity Health</a>
+      <nav>
+        <a href="index.html" class="active">Início</a>
+        <a href="registro.html">Registrar</a>
+        <a href="historico.html">Histórico</a> 
+        <a href="emergencia.html">Emergência</a>
+      </nav>
+    </div>
+
+    <div class="nav-right">
+      <div class="user-menu-wrap" id="userMenuWrap">
+        <button class="user-menu-btn" id="userMenuBtn" aria-expanded="false" aria-haspopup="true">
+            <img id="userAvatarSmall" class="user-menu-avatar"
+                  src="/mnt/data/9cebf04c-2d9b-4569-9ee8-fd1ef0503fd2.png" alt="Avatar do Usuário">
+            <span class="user-menu-name" id="userMenuName">Carregando...</span>
+            <svg width="14" height="14" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" fill="currentColor"/></svg>
+        </button>
+
+        <div class="user-menu-dropdown" id="userMenuDropdown">
+            <div class="umd-header">
+                <img id="umdAvatarImg" class="umd-avatar"
+                      src="/mnt/data/9cebf04c-2d9b-4569-9ee8-fd1ef0503fd2.png" alt="Avatar do Usuário">
+                <div class="umd-info">
+                    <div class="umd-name" id="umdName">Carregando...</div>
+                    <div class="umd-username" id="umdUsername">@usuario</div>
+                </div>
+            </div>
+
+            <div class="umd-item" id="menuAtualizarDados">🔄 Atualizar dados</div>
+            <div class="umd-item" id="menuConfiguracoes">⚙️ Configurações</div>
+            <div class="umd-item" id="menuAjuda">❓ Ajuda</div>
+
+            <div class="umd-sep"></div>
+            <div class="umd-item" id="menuTemaToggle" style="display:flex; align-items:center; gap:8px;">
+                <span id="temaIcon">🌓</span>
+                <span id="temaLabel">Modo Escuro</span>
+                <label class="switch" style="margin-left:auto">
+                  <input type="checkbox" id="temaCheckbox">
+                  <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="umd-sep"></div>
+
+            <div class="umd-item umd-item-logout" id="menuLogout">↩️ Sair</div>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <main class="container">
+
+    <section class="welcome-card">
+      <h2><i class="fas fa-heartbeat"></i> Bem-vindo(a)!</h2>
+      <p>Monitore sua glicemia e receba alertas de hipoglicemia de forma simples, rápida e moderna.</p>
+      <a href="registro.html" class="btn btn-primary">Registrar Glicemia</a>
+    </section>
+
+<section class="analysis-card">
+    <div class="analysis-header">
+        <div>
+            <h2>📊 Análise de Dados (IA)</h2>
+            <div id="analysis-chip">Última análise: —</div>
+        </div>
+        <div class="analysis-trend">
+            <small>Projeção a 30 min</small>
+            <canvas id="analysisTrend" aria-label="Gráfico de tendência"></canvas>
+            <div style="text-align: center;">Tendência</div>
+        </div>
+    </div>
+
+    <div class="analysis-body">
+        <div id="analysis-message">Carregando análise...</div>
+    </div>
+
+    <div class="analysis-actions">
+        <button id="btn-refresh-analysis" class="btn">Atualizar</button>
+        <a href="historico.html" class="btn btn-small btn-primary">Ver Histórico</a>
+    </div>
+</section>
+
+    <section class="info-cards">
+      <div class="card">
+        <h2>💡 Nossa Ideia: Monitoramento Inteligente</h2>
+        <p>O Clarity Health vai além de um simples diário de glicemia. Nossa missão é transformar dados brutos em previsões acionáveis usando Aprendizado de Máquina (Machine Learning).</p>
+        
+        <h3>Como Funciona o Aplicativo:</h3>
+        <ul>
+            <li>Registro Completo: Você insere o valor da glicemia, além de informações cruciais como refeições e exercícios.</li>
+            <li>Análise em Tempo Real: A cada novo registro, nosso sistema calcula a tendência imediata (taxa de mudança).</li>
+            <li>Previsão Inteligente (IA): Após coletar dados suficientes (mínimo de 20 registros), um modelo de Regressão Ridge (do Scikit-learn) é treinado para analisar seus padrões históricos e prever se você tem risco de Hipoglicemia ou Hiperglicemia nos próximos 30 minutos.</li>
+            <li>Alerta Pró-ativo: Você recebe uma mensagem de risco antes que a situação se concretize, permitindo correções e ajustes de forma preventiva.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="info-cards">
+      <div class="card">
+        <h3><i class="fas fa-history"></i> Histórico</h3>
+        <p>Visualize todos os registros e acompanhe seus níveis de glicemia em gráficos.</p>
+        <a href="historico.html" class="btn-small">Ver histórico</a>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-exclamation-triangle"></i> Emergência</h3>
+        <p>Saiba o que fazer em caso de hipoglicemia com nosso guia rápido de ação.</p>
+        <a href="emergencia.html" class="btn-small">Ver guia</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Clarity Health</p>
+  </footer>
+
+  <div class="modal" id="modalUpdate" aria-hidden="true">
+    <div class="modal-panel">
+      <header class="modal-header"><h3>Atualizar Dados</h3><button class="modal-close" data-target="modalUpdate">✕</button></header>
+      <div class="modal-body">
+        <label>Email</label>
+        <input id="modalEmail" type="text" readonly>
+        <label>Seu chat_id (Telegram)</label>
+        <input id="modalTelegramChat" type="text" placeholder="8439454986">
+        <label>Trusted chat_id</label>
+        <input id="modalTrustedChat" type="text" placeholder="8598492955">
+      </div>
+      <footer class="modal-footer">
+        <button id="modalSave" class="btn btn-primary">Salvar</button>
+        <button class="btn" data-target="modalUpdate">Cancelar</button>
+      </footer>
+    </div>
+  </div>
+
+  <div class="modal" id="modalConfig" aria-hidden="true">
+    <div class="modal-panel">
+      <header class="modal-header"><h3>Configurações</h3><button class="modal-close" data-target="modalConfig">✕</button></header>
+      <div class="modal-body">
+        <label>Preferência de notificação</label>
+        <select id="cfgNotifications">
+          <option value="all">Todas</option>
+          <option value="only_low">Só alerta baixo</option>
+          <option value="none">Nenhuma</option>
+        </select>
+
+        <label style="margin-top:12px">Idioma</label>
+        <select id="cfgLocale">
+          <option value="pt-BR">Português (BR)</option>
+          <option value="en-US">English (US)</option>
+        </select>
+      </div>
+      <footer class="modal-footer">
+        <button id="cfgSave" class="btn btn-primary">Salvar</button>
+        <button class="btn" data-target="modalConfig">Fechar</button>
+      </footer>
+    </div>
+  </div>
+
+  <div class="modal" id="modalHelp" aria-hidden="true">
+    <div class="modal-panel">
+      <header class="modal-header"><h3>Ajuda</h3><button class="modal-close" data-target="modalHelp">✕</button></header>
+      <div class="modal-body">
+        <p>Se precisar de ajuda, entre em contato com support@seusite.com ou consulte o manual.</p>
+        <p>Você também pode enviar um relatório via chat.</p>
+      </div>
+      <footer class="modal-footer">
+        <button class="btn" data-target="modalHelp">Fechar</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
